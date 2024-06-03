@@ -1,19 +1,19 @@
 # Aliases Used in Video
 
-alias gdbSupervisor='gdb --batch --ex run --ex bt --ex q --args' 
-// valgrind commands
-// As long as you have -g debugging flag when compiling your program with gcc the output of valgrind should tell you WHERE the memory leak(s) occurred
-// Make sure to pass these after the `valgrind` alias: ./executable exampleParam1
-// The flags are, in short:
-//    --leak-check=full: "each individual leak will be shown in detail"
-//    --show-leak-kinds=all: Show all of "definite, indirect, possible, reachable" leak kinds in the "full" report.
-//    --track-origins=yes: Favor useful output over speed. This tracks the origins of uninitialized values, which could be very useful for memory errors. Consider turning off if Valgrind is unacceptably slow.
-//    --verbose: Can tell you about unusual behavior of your program. Repeat for more verbosity.
-//    --log-file: Write to a file. Useful when output exceeds terminal space.
+alias gdbSupervisor='gdb --batch --ex run --ex bt --ex q --args'  
+// valgrind commands  
+// As long as you have -g debugging flag when compiling your program with gcc the output of valgrind should tell you WHERE the memory leak(s) occurred  
+// Make sure to pass these after the `valgrind` alias: ./executable exampleParam1  
+// The flags are, in short:  
+//    --leak-check=full: "each individual leak will be shown in detail"  
+//    --show-leak-kinds=all: Show all of "definite, indirect, possible, reachable" leak kinds in the "full" report.  
+//    --track-origins=yes: Favor useful output over speed. This tracks the origins of uninitialized values, which could be very useful for memory errors. Consider turning off if Valgrind is unacceptably slow.  
+//    --verbose: Can tell you about unusual behavior of your program. Repeat for more verbosity.  
+//    --log-file: Write to a file. Useful when output exceeds terminal space.  
 alias valgrind='valgrind --leak-check=full \
          --show-leak-kinds=all \
          --track-origins=yes \
-         --verbose'
+         --verbose'  
 
 
 # Explanation
