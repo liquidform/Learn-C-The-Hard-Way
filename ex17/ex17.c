@@ -82,16 +82,19 @@ void Database_load(struct Connection *conn)
 		die("Failed to load database.", conn);
 
 	printf("Max rows in load function after reading Database struct from stream: %ld\n", conn->db->max_rows);
+	printf("Rows in load function after reading Database struct from stream: %zu\n", (void *) conn->db->rows);
 	printf("Rows in load function after reading Database struct from stream: %p\n", (void *) conn->db->rows);
 	assert(conn->db->max_rows > 0);
 	//assert(conn->db->rows == NULL);
 
 	rc = fread(conn->db->rows, sizeof(struct Address) * conn->db->max_rows, 1, conn->file);
 	//rc = fread(conn->db->rows, sizeof(struct Address) * 100, 1, conn->file);
+	printf("Rows in load function after reading rows from stream: %zu\n", (void *) conn->db->rows);
 	printf("Rows in load function after reading rows from stream: %p\n", (void *) conn->db->rows);
 	if(rc != 1)
 		die("Failed to load rows.", conn);
 
+	printf("Address of file: %zu\n", (void *) conn->file);
 	printf("Address of file: %p\n", (void *) conn->file);
 	if(!conn->file)
 		die("Memory error", conn);
@@ -101,11 +104,13 @@ struct Connection *Database_open(const char *filename, char mode)
 {
 	struct Connection *conn = malloc(sizeof(struct Connection));
 	// On error, malloc returns NULL and sets errno. NULL is basically just 0 and !0 is true (0 is false and 1 is true in boolean algebra). You could be explicit and say if(conn == NULL), as well. In some rare systems, NULL will be stored in the computer (represented) as something not 0, but the C standard says you should still be able to write code as if it has a 0 value. This link helps clear things up here and elsewhere in this program: https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Null-Pointers.html
+	printf("Address of conn: %zu\n", (void *) conn);
 	printf("Address of conn: %p\n", (void *) conn);
 	if(!conn)
 		die("Memory error", conn);
 
 	conn->db = malloc(sizeof(struct Database));
+	printf("Address of db: %zu\n", (void *) conn->db);
 	printf("Address of db: %p\n", (void *) conn->db);
 	if(!conn->db)
 		die("Memory error", conn);
@@ -135,6 +140,7 @@ struct Connection *Database_open(const char *filename, char mode)
 	
 	//conn->db->rows = malloc(sizeof(struct Address) * conn->db->max_rows);
 	conn->db->rows = malloc(sizeof(struct Address) * 100);
+	printf("Address of rows: %zu\n", (void *) conn->db->rows);
 	printf("Address of rows: %p\n", (void *) conn->db->rows);
 	if(!conn->db->rows)
 		die("Memory error", conn);
@@ -214,12 +220,15 @@ void Database_write(struct Connection *conn)
 //	printf("Max rows in write before writing rows to stream: %ld\n", conn->db->max_rows);
 	// GET RID OF AFTER WRITING AND LOADING SUCCESSFULLY SO ROWS WONT BE LEAKED (VALGRIND SHOWS THIS)
 //	conn->db->rows = 0;
+	printf("Rows in write function before writing rows to stream: %zu\n", (void *) conn->db->rows);
 	printf("Rows in write function before writing rows to stream: %p\n", (void *) conn->db->rows);
 	rc = fwrite(conn->db->rows, sizeof(struct Address) * conn->db->max_rows, 1, conn->file);
+	printf("Rows in write function after writing rows to stream: %zu\n", (void *) conn->db->rows);
 	printf("Rows in write function after writing rows to stream: %p\n", (void *) conn->db->rows);
 	if(rc != 1)
 		die("Failed to write rows.", conn);
 
+	printf("Address of file: %zu\n", (void *) conn->file);
 	printf("Address of file: %p\n", (void *) conn->file);
 	if(!conn->file)
 		die("Memory error", conn);
