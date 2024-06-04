@@ -81,6 +81,11 @@ void Database_load(struct Connection *conn)
 	if(rc != 1)
 		die("Failed to load database.", conn);
 
+	printf("Address of file after loading db from stream: %zu\n", (void *) conn->file);
+	printf("Address of file after loading db from stream: %p\n", (void *) conn->file);
+	if(!conn->file)
+		die("Memory error", conn);
+
 	printf("Max rows in load function after reading Database struct from stream: %ld\n", conn->db->max_rows);
 	printf("Rows in load function after reading Database struct from stream: %zu\n", (void *) conn->db->rows);
 	printf("Rows in load function after reading Database struct from stream: %p\n", (void *) conn->db->rows);
@@ -93,11 +98,6 @@ void Database_load(struct Connection *conn)
 	printf("Rows in load function after reading rows from stream: %p\n", (void *) conn->db->rows);
 	if(rc != 1)
 		die("Failed to load rows.", conn);
-
-	printf("Address of file: %zu\n", (void *) conn->file);
-	printf("Address of file: %p\n", (void *) conn->file);
-	if(!conn->file)
-		die("Memory error", conn);
 }
 
 struct Connection *Database_open(const char *filename, char mode)
@@ -228,8 +228,8 @@ void Database_write(struct Connection *conn)
 	if(rc != 1)
 		die("Failed to write rows.", conn);
 
-	printf("Address of file: %zu\n", (void *) conn->file);
-	printf("Address of file: %p\n", (void *) conn->file);
+	printf("Address of file after writing rows to stream: %zu\n", (void *) conn->file);
+	printf("Address of file after writing rows to stream: %p\n", (void *) conn->file);
 	if(!conn->file)
 		die("Memory error", conn);
 
