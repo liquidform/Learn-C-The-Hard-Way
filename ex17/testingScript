@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#set -e
+#Exit the script if any statement returns a non-true return value. Same as `set -e` but more readable. 
+set -o errexit
+
+make
+
+./ex17 test.db c 1000000 50
+#./ex17 test.db c 1000001 50
+#./ex17 test.db c 1000000 51
+
+./ex17 test.db s 1 zed zed@zedshaw.com 37 m
+./ex17 test.db s 2 jam jammin@zedshaw.com 52 f
+./ex17 test.db s 3 hippo hippoCritical@zedshaw.com 29 m
+./ex17 test.db s 4 jane janeissane@gmail.com 47 f
+./ex17 test.db s 999999 lisa monaLisa@yahoo.com 68 f
+
+./ex17 test.db l
+printf "\n"
+
+./ex17 test.db f n ppo
+./ex17 test.db f n al
+printf "\n"
+
+./ex17 test.db f e ed
+./ex17 test.db f e la
+printf "\n"
+
+./ex17 test.db f a 29
+./ex17 test.db f a 47
+./ex17 test.db f a 68
+./ex17 test.db f a 72
+printf "\n"
+
+./ex17 test.db g 3
+./ex17 test.db d 3
+#./ex17 test.db g 3
+printf "\n"
+
+./ex17 test.db l
+printf "\n"
+
+./ex17 test.db f s m
+printf "\n"
+./ex17 test.db f s f
+printf "\n"
+./ex17 test.db f w r
