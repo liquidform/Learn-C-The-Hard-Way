@@ -1,9 +1,12 @@
+#include "dbg.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 
 // zed's favorite feature of C is pointers to functions. It's really handy but you don't encounter it often because most C programmers don't use them for some reason.
+
+// Debugging a core file with gdb to see the state of the program when it crashed: Sometimes core dumps aren't enabled on OSs. In my case, it already was so I didn't need to enable them for a shell session with `ulimit -c unlimited`. The systemd-coredump handler writes coredump files to /var/lib/systemd/coredump/. Old files are cleaned up periodically by systemd-tmpfiles(8). But the core files were compressed and `gdb <binary file> <core file>` wasn't running because the file format wasn't recognized. So I used `coredumpctl debug` or `coredumpctl gdb` to view the last generated dump. The debugger coredumpctl uses by default is gdb. From there I ran the usual gdb commands. Most importantly, I used `thread apply all bt full` and `bt full`. To check for stored core dumps you can also use `coredumpctl` or `coredumpctl list`. From there you can select the dump you want by PID using `coredumpctl debug <PID>`. There may be better ways to analyze a core dump file though. Maybe Binutils, Mozilla rr, or kdump.
 
 void die(const char *message)
 {
@@ -128,7 +131,7 @@ void dump(compare_cb cmp)
 
 int main(int argc, char *argv[])
 {
-	if(argc < 2) die("USAGE: ex18 4 3 1 5 6");
+	if(argc < 2) die("USAGE: ex20 4 3 1 5 6");
 
 	int count = argc - 1;
 
