@@ -1,0 +1,9 @@
+Here are some rules to follow when writing C code so you can avoid bugs related to the stack (also see comment near the top of ex22.h about global variables):
+
+    Do not shadow a variable like I've done here with count in scope_demo. It leaves you open to subtle and hidden bugs where you think you're changing a value but actually not.
+    Avoid using too many globals, especially if across multiple files. If you have to use them, then use accessor functions like I've done with get_age. This doesn't apply to constants, since those are read-only. I'm talking about variables like THE_SIZE. If you want people to modify or set this variable, then make accessor functions.
+    When in doubt, put it on the heap. Don't rely on the semantics of the stack or specialized locations. Just create things with malloc.
+    Don't use function static variables like I did in update_ratio. They're rarely useful and end up being a huge pain when you need to make your code concurrent in threads. They're also hard as hell to find compared to a well-done global variable.
+    Avoid reusing function parameters. It's confusing whether you're just reusing it or if you think you're changing the caller's version of it (depends on if the parameter is passed by value or passed by reference).
+
+As with all things, these rules can be broken when it's practical. In fact, I guarantee you'll run into code that breaks all of these rules and is perfectly fine. The constraints of different platforms even make it necessary sometimes.

@@ -5,6 +5,8 @@
 
 // zed's favorite feature of C is pointers to functions. It's really handy but you don't encounter it often because most C programmers don't use them for some reason.
 
+// Debugging a core file with gdb to see the state of the program when it crashed: Sometimes core dumps aren't enabled on OSs. In my case, it already was so I didn't need to enable them for a shell session with `ulimit -c unlimited`. The systemd-coredump handler writes coredump files to /var/lib/systemd/coredump/. Old files are cleaned up periodically by systemd-tmpfiles(8). But the core files were compressed and `gdb <binary file> <core file>` wasn't running because the file format wasn't recognized. So I used `coredumpctl debug` or `coredumpctl gdb` to view the last generated dump. The debugger coredumpctl uses by default is gdb. From there I ran the usual gdb commands. Most importantly, I used `thread apply all bt full` and `bt full`. To check for stored core dumps you can also use `coredumpctl` or `coredumpctl list`. From there you can select the dump you want by PID using `coredumpctl debug <PID>`. There may be better ways to analyze a core dump file though. Maybe Binutils, Mozilla rr, or kdump.
+
 void die(const char *message)
 {
 	if(errno)
@@ -150,6 +152,7 @@ int main(int argc, char *argv[])
 	test_sorting(numbers, count, selection_sort, strange_order);
 
 	free(numbers);
+	numbers = NULL;
 
 	// strings you find are the easiest to change. So using a hex editor, "hack" is changed to "done". Follow these steps in order to find "done" in xxd and change it to something else if you like:
 	// `nvim ex18`
@@ -159,11 +162,11 @@ int main(int argc, char *argv[])
 	// hack in hex is 6861 636b (you will see it in the hex columns in the middle of the binary file.)
 	// change this hex to a new hex of the same length using a text to hexadecimal converter online. Changes to the human readable column are ignored on write
 	// `%!xxd -r > ex18` (saves the file to ex18 using the -r | -revert operation to convert hexdump into binary)
-	// `:w` (MUST have binary option set before writing because if your environment is using a multibyte encoding (e.g. UTF-8, as most people use), Vim tries to encode the text as such, usually leading to file corruption.)
 	// `l` to load the file again (should say converted)
-	char * test = "hack";	
+	// `:w` (MUST have binary option set before writing because if your environment is using a multibyte encoding (e.g. UTF-8, as most people use), Vim tries to encode the text as such, usually leading to file corruption.)
+	char *test = "hack";	
 	printf("Hacked string via hex editor:\n%s\n", test);
-	
+
 	printf("SORTED:");
 	dump(sorted_order);
 

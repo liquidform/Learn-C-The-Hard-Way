@@ -155,15 +155,15 @@ int main(int argc, char *argv[])
 	free(numbers);
 
 	// strings you find are the easiest to change. So using a hex editor, "hack" is changed to "done". Follow these steps in order to find "done" in xxd and change it to something else if you like:
-	// `nvim ex18`
+	// `nvim ex20`
 	// `:%!xxd` (use the xxd(1) tool to convert a file to more readable format, and (this is the important bit), parse the edited "readable format" and write it back as binary data.)
 	// `:set binary` or `:se binary` (MUST have binary option set before writing because if your environment is using a multibyte encoding (e.g. UTF-8, as most people use), Vim tries to encode the text as such, usually leading to file corruption.)
 	// `/hack` (you will see it in the human readable right column)
 	// hack in hex is 6861 636b (you will see it in the hex columns in the middle of the binary file.)
 	// change this hex to a new hex of the same length using a text to hexadecimal converter online. Changes to the human readable column are ignored on write
-	// `%!xxd -r > ex18` (saves the file to ex18 using the -r | -revert operation to convert hexdump into binary)
-	// `:w` (MUST have binary option set before writing because if your environment is using a multibyte encoding (e.g. UTF-8, as most people use), Vim tries to encode the text as such, usually leading to file corruption.)
+	// `%!xxd -r > ex20` (saves the file to ex18 using the -r | -revert operation to convert hexdump into binary)
 	// `l` to load the file again (should say converted)
+	// `:w` (MUST have binary option set before writing because if your environment is using a multibyte encoding (e.g. UTF-8, as most people use), Vim tries to encode the text as such, usually leading to file corruption.)
 	char * test = "hack";	
 	printf("Hacked string via hex editor:\n%s\n", test);
 	
