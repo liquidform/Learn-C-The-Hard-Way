@@ -8,7 +8,7 @@
 
 ## Directory
 
-More on these at the link in the description of this repo.
+More on these at the link in the about section of this repo.
 
 Exercise 0: The Setup
  
