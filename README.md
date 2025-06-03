@@ -7,6 +7,9 @@
 * ex20
 
 ## Directory
+
+More on these at the link in the description of this repo.
+
 Exercise 0: The Setup
  
 Exercise 1: Dust Off That Compiler
